@@ -584,7 +584,6 @@
           attribute EventHandler onshippingaddresschange;
           attribute EventHandler onshippingoptionchange;
           attribute EventHandler onpaymentmethodchange;
-          attribute EventHandler onpayeraddresschange;
         };
       </pre>
       <div class="note">
@@ -1328,16 +1327,6 @@
           A <a>PaymentRequest</a>'s <a>onpaymentmethodchange</a> attribute is
           an <a>EventHandler</a> for a <a>PaymentRequestUpdateEvent</a> named
           "<a>paymentmethodchange</a>".
-        </p>
-      </section>
-      <section data-dfn-for="PaymentRequest" data-link-for="PaymentRequest">
-        <h2>
-          <dfn>onpayeraddresschange</dfn> attribute
-        </h2>
-        <p>
-          A <a>PaymentRequest</a>'s <a>onpayeraddresschange</a> attribute is an
-          <a>EventHandler</a> for a <a>PaymentRequestUpdateEvent</a> named
-          "<a>payeraddresschange</a>".
         </p>
       </section>
       <section>
@@ -4668,9 +4657,9 @@
                   </li>
                 </ol>
               </li>
-              <li>If the <a data-lt="PaymentDetailsUpdate.paymentMethodErrors">
-                paymentMethodErrors</a> member is present and
-                <var>identifier</var> is not undefined:
+              <li data-link-for="PaymentDetailsUpdate">If the
+              <a>paymentMethodErrors</a> member is present and
+              <var>identifier</var> is not undefined:
                 <ol>
                   <li>If required by the specification that defines the
                   <var>identifer</var>, then <a data-cite=
