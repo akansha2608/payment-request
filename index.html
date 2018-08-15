@@ -3986,9 +3986,16 @@
             </li>
             <li>Set <var>event</var>.<a>[[\waitForUpdate]]</a> to true.
             </li>
+            <li>Let <var>identifer</var> be undefined.
+            </li>
+            <li>If <var>event</var> has a <a data-link-for=
+            "PaymentMethodChangeEvent">methodName</a> attribute, set
+            <var>identifer</var> to the <a data-link-for=
+            "PaymentMethodChangeEvent">methodName</a> attribute's value.
+            </li>
             <li>Run the <a>update a <code>PaymentRequest</code>'s details
-            algorithm</a> with <var>detailsPromise</var> and
-            <var>request</var>.
+            algorithm</a> with <var>detailsPromise</var>, <var>request</var>,
+            and <var>identifer</var>.
             </li>
           </ol>
         </section>
@@ -4469,9 +4476,10 @@
         <p>
           The <dfn>update a <code>PaymentRequest</code>'s details
           algorithm</dfn> takes a <a>PaymentDetailsUpdate</a>
-          <var>detailsPromise</var> and a <a>PaymentRequest</a>
-          <var>request</var>. The steps are conditional on the
-          <var>detailsPromise</var> settling. If <var>detailsPromise</var>
+          <var>detailsPromise</var>, a <a>PaymentRequest</a>
+          <var>request</var>, and optionally a DOMString <var>identifer</var>
+          (a <a>payment method identifier</a>). The steps are conditional on
+          the <var>detailsPromise</var> settling. If <var>detailsPromise</var>
           never settles then the payment request is blocked. The user agent
           SHOULD provide the user with a means to abort a payment request.
           Implementations MAY choose to implement a timeout for pending updates
@@ -4660,6 +4668,28 @@
                   </li>
                 </ol>
               </li>
+              <li>If the <a data-lt="PaymentDetailsUpdate.paymentMethodErrors">
+                paymentMethodErrors</a> member is present and
+                <var>identifier</var> is not undefined:
+                <ol>
+                  <li>If required by the specification that defines the
+                  <var>identifer</var>, then <a data-cite=
+                  "!WEBIDL#dfn-convert-ecmascript-to-idl-value">convert</a> <a>
+                    paymentMethodErrors</a> to an IDL value. Otherwise,
+                    <a data-cite=
+                    "!WEBIDL#dfn-convert-ecmascript-to-idl-value">convert</a>
+                    <a>paymentMethodErrors</a> to <a data-cite=
+                    "!WEBIDL#idl-object">object</a>.
+                  </li>
+                  <li>If conversion results in a <a data-cite=
+                  "!WEBIDL#dfn-exception">exception</a> <var>error</var>,
+                  <a>abort the update</a> with <var>error</var>.
+                  </li>
+                  <li>The <a>payment handler</a> SHOULD display an error for
+                  each relevant erroneous field of <a>paymentMethodErrors</a>.
+                  </li>
+                </ol>
+              </li>
               <li>Update the <a>PaymentRequest</a> using the new details:
                 <ol>
                   <li data-link-for="PaymentDetailsUpdate">If the <a>total</a>
@@ -4739,13 +4769,6 @@
                       address. This is done by matching each present member of
                       the <a>AddressErrors</a> to a corresponding input field
                       in the shown user interface.
-                    </p>
-                    <p>
-                      If the <a data-lt=
-                      "PaymentDetailsUpdate.paymentMethodErrors">paymentMethodErrors</a>
-                      member is present, the <a>payment handler</a> SHOULD
-                      display an error specifically for each relevant erroneous
-                      field.
                     </p>
                   </li>
                 </ol>
